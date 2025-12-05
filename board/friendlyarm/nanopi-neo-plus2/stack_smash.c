@@ -5,7 +5,7 @@ int main(){
 
     char buffer[1];
 
-    strcp(buffer, "ab");
+    strcpy(buffer, "ab");
 
     return 0;
 }
