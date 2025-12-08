@@ -5,7 +5,7 @@
  endif
  
 -KBUILD_CFLAGS += $(call cc-option,-fno-stack-protector)
-+KBUILD_CFLAGS += $(call cc-option,-fno-stack-protector-strong)
++KBUILD_CFLAGS += $(call cc-option,-fstack-protector-strong)
  KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks)
  
  # disable stringop warnings in gcc 8+
