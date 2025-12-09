@@ -1,0 +1,35 @@
+diff -ruN ./common/Makefile ./common_new/Makefile
+--- a/common/Makefile	2020-09-21 19:45:23.000000000 +0200
++++ b/common/Makefile	2025-12-09 09:06:46.014578635 +0100
+@@ -139,3 +139,5 @@
+ obj-$(CONFIG_$(SPL_TPL_)YMODEM_SUPPORT) += xyzModem.o
+ 
+ obj-$(CONFIG_AVB_VERIFY) += avb_verify.o
++
++obj-y += stackprot.o
+\ No newline at end of file
+diff -ruN ./common/stackprot.c ./common_new/stackprot.c
+--- a/common/stackprot.c	1970-01-01 01:00:00.000000000 +0100
++++ b/common/stackprot.c	2025-12-09 09:04:35.978437097 +0100
+@@ -0,0 +1,20 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ *  Copyright 2021 Broadcom
++ */
++
++#include <common.h>
++#include <asm/global_data.h>
++
++DECLARE_GLOBAL_DATA_PTR;
++
++unsigned long __stack_chk_guard = (unsigned long)(0xfeedf00ddeadbeef & ~0UL);
++
++void __stack_chk_fail(void)
++{
++	void *ra;
++
++	ra = __builtin_extract_return_addr(__builtin_return_address(0));
++	panic("Stack smashing detected in function:\n%p relocated from %p",
++	      ra, ra - gd->reloc_off);
++}
+\ No newline at end of file
